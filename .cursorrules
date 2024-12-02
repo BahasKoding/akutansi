@@ -1,0 +1,57 @@
+1. Latar Belakang
+Aplikasi akuntansi sederhana dirancang untuk membantu UKM, seperti restoran kecil, dalam mencatat dan mengelola pemasukan dengan mudah. Restoran sering menghadapi tantangan dalam memonitor pendapatan harian mereka secara efisien, sehingga sulit untuk menganalisis performa bisnis secara tepat waktu. Dengan aplikasi ini, pengguna dapat mencatat transaksi pemasukan harian, memantau arus kas masuk, dan melihat laporan keuangan yang relevan.
+
+2. Batasan Permasalahan
+- Fokus: Aplikasi hanya mencakup pencatatan pemasukan, transfer antar akun, dan penyajian laporan keuangan (Laba Rugi dan Neraca).
+- Pengguna: Hanya tersedia tiga peran: User, Admin, dan Manager.
+- Skalabilitas: Aplikasi dirancang untuk UKM dengan transaksi sederhana tanpa fitur kompleks seperti integrasi pajak atau payroll otomatis.
+- Aksesibilitas: Aplikasi berbasis web, tidak ada dukungan offline.
+- Autentikasi dan Otorisasi: Pengguna harus login untuk mengakses fitur, dengan hak akses sesuai peran masing-masing.
+3. Proses Bisnis
+
+1. Aktor:
+    Manager Keuangan: Mencatat pemasukan dan transfer.
+    Admin: Mengelola account, kategori, dan pengguna.
+    Owner: Mengakses laporan keuangan dan analisis.
+2. Flowchart Pencatatan Transaksi Pemasukan:
+Alur proses pencatatan transaksi pemasukan:
+
+Input Data: User memilih jenis transaksi (Income atau Transfer).
+Validasi Input: Sistem memvalidasi data (akun tujuan, jumlah, kategori).
+Proses Transaksi:
+Jika Income: Tambah saldo akun yang dipilih.
+Jika Transfer: Kurangi saldo dari akun asal, tambah saldo ke akun tujuan.
+Jurnal Entry: Sistem mencatat transaksi ke jurnal.
+Konfirmasi: Sistem memberikan notifikasi bahwa transaksi berhasil dicatat.
+4. Penyesuaian Aplikasi ke Proses Bisnis
+Fitur dan Modul Utama
+Accounts Management:
+
+Membuat akun seperti Kas dan Bank.
+Menampilkan saldo setiap akun.
+Categories Management:
+
+Membuat kategori seperti Penjualan Harian.
+Kategori digunakan saat mencatat pemasukan.
+Transaction Recording:
+
+Pencatatan pemasukan dan transfer uang.
+Fitur autocomplete untuk kategori dan akun.
+Financial Reports:
+
+Laporan Laba Rugi dan Neraca.
+Grafik analisis tren pemasukan.
+User Roles & Permissions:
+
+User: Hanya dapat mencatat transaksi pemasukan.
+Admin: Mengelola semua data (akun, kategori, pengguna).
+Manager: Mengakses laporan keuangan.
+Teknologi yang Digunakan
+Framework: Laravel 11 (Backend) dan Bootstrap 5 (Frontend).
+Database: MySQL untuk pencatatan transaksi dan laporan keuangan.
+Autentikasi: Dibuat sendiri.
+Integrasi dengan Proses Bisnis Restoran
+Pemasukan: Mencatat pemasukan dari penjualan harian.
+Transfer: Mengelola pemindahan kas antar akun (dari brankas ke rekening bank).
+Laporan Keuangan: Laporan harian, mingguan, atau bulanan untuk evaluasi profitabilitas restoran.
+Aplikasi ini kini berfokus sepenuhnya pada manajemen pemasukan dan penyajian laporan keuangan yang relevan. Dengan penghapusan fitur terkait pengeluaran, aplikasi menjadi lebih sederhana dan langsung mendukung kebutuhan pencatatan pemasukan harian UKM.
