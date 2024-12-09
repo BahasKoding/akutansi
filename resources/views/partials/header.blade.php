@@ -33,15 +33,15 @@
                         <!-- Message Start -->
                         <div class="d-flex">
                             <div class="flex-shrink-0">
-                                <img src="{{ asset('dist/assets/img/user1-128x128.jpg') }}" alt="User Avatar" class="img-size-50 rounded-circle me-3">
+                                <img src="src/assets/img/aibdani.jpg" alt="User Avatar" class="img-size-50 rounded-circle me-3">
                             </div>
                             <div class="flex-grow-1">
                                 <h3 class="dropdown-item-title">
-                                    Brad Diesel
+                                    Dani Laku
                                     <span class="float-end fs-7 text-danger"><i class="bi bi-star-fill"></i></span>
                                 </h3>
-                                <p class="fs-7">Call me whenever you can...</p>
-                                <p class="fs-7 text-secondary"><i class="bi bi-clock-fill me-1"></i> 4 Hours Ago</p>
+                                <p class="fs-7">Ya namanya juga manusia bukan nabi boy...</p>
+                                <p class="fs-7 text-secondary"><i class="bi bi-clock-fill me-1"></i> 2 Ages Ago</p>
                             </div>
                         </div>
                         <!-- Message End -->
