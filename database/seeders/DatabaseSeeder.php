@@ -89,7 +89,13 @@ class DatabaseSeeder extends Seeder
                 'email' => 'finance@restaurant.com',
                 'password' => Hash::make('password123'),
                 'role' => 'finance'  // Records income and transfers
-            ]);
+            ]);     
+            User::create([
+                'name' => 'Agus Yusuf Ramadhan',
+                'email' => 'agus@restaurant.com',
+                'password' => Hash::make('password123'),
+                'role' => 'YMA'  // Records income and transfers
+            ]);     
 
             User::create([
                 'name' => 'Owner',
