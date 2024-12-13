@@ -90,6 +90,7 @@ class DatabaseSeeder extends Seeder
                 'password' => Hash::make('password123'),
                 'role' => 'finance'  // Records income and transfers
             ]);     
+            
             User::create([
                 'name' => 'Agus Yusuf Ramadhan',
                 'email' => 'agus@restaurant.com',
