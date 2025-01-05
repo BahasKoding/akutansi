@@ -87,7 +87,7 @@
             <div class="col-md-5 col-lg-4">
                 <div class="card login-card shadow-lg">
                     <div class="login-header">
-                        <img src="{{ asset('wawawa.jpeg') }}" alt="Logo" class="mb-4 rounded">
+                        <img src="{{ asset('wawawa.jpeg') }}" alt="Logo" class="mb-4 rounded-circle">
                         <h1 class="brand-name mb-2">Sushi Restaurant</h1>
                         <p class="text-muted">Restaurant Financial Management</p>
                     </div>

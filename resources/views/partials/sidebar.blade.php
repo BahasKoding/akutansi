@@ -2,7 +2,7 @@
     <div class="sidebar-brand">
         <a href="{{ route('dashboard') }}" class="brand-link">
             <img src="{{ asset('wawawa.jpeg') }}" alt="AdminLTE Logo"
-                class="brand-image opacity-75 rounded shadow">
+                class="brand-image opacity-75 rounded-circle shadow">
             <span class="brand-text fw-light">WAWAWA</span>
         </a>
     </div>
