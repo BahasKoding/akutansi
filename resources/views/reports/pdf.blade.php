@@ -120,12 +120,31 @@
             background-color: #dcfce7;
             color: #166534;
         }
+
+        .period-info {
+            background: #f8fafc;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 12px;
+            color: #64748b;
+        }
+        .generated-info {
+            text-align: right;
+            font-size: 10px;
+            color: #94a3b8;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>Income Statement</h1>
-        <p>Period: {{ \Carbon\Carbon::parse($startDate)->format('d M Y') }} - {{ \Carbon\Carbon::parse($endDate)->format('d M Y') }}</p>
+        <p>{{ $period }}</p>
+    </div>
+
+    <div class="period-info">
+        <strong>Report Period:</strong> {{ $period }}
     </div>
 
     <div class="company-info">
@@ -164,6 +183,10 @@
                 </tr>
             </tfoot>
         </table>
+    </div>
+
+    <div class="generated-info">
+        Generated at: {{ $generatedAt }}
     </div>
 </body>
 </html>

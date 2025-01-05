@@ -11,7 +11,7 @@ class JournalEntryController extends Controller
 {
     public function index()
     {
-        // Fetch only income journal entries
+        // Mengambil semua journal entry yang terkait dengan transaksi income
         $journalEntries = JournalEntry::with(['transaction', 'debitAccount', 'creditAccount'])
             ->whereHas('transaction', function ($query) {
                 $query->where('type', 'income');

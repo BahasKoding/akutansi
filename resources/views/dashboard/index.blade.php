@@ -38,7 +38,7 @@
 
         <!-- Quick Stats -->
         <div class="row mb-4">
-            @if(auth()->user()->role === 'owner')
+            @if (auth()->user()->role === 'owner')
                 <div class="col-lg-6 col-md-6 mb-4">
                     <div class="card h-100 border-0 shadow-sm hover-card">
                         <div class="card-body p-4">
@@ -67,7 +67,7 @@
                 </div>
             @endif
 
-            @if(auth()->user()->role === 'finance')
+            @if (auth()->user()->role === 'finance')
                 <div class="col-lg-6 col-md-6 mb-4">
                     <div class="card h-100 border-0 shadow-sm hover-card">
                         <div class="card-body p-4">
@@ -96,7 +96,7 @@
                 </div>
             @endif
 
-            @if(auth()->user()->role === 'admin')
+            @if (auth()->user()->role === 'admin')
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="card h-100 border-0 shadow-sm hover-card">
                         <div class="card-body p-4">
@@ -140,7 +140,7 @@
         </div>
 
         <!-- Charts Section -->
-        @if(in_array(auth()->user()->role, ['owner', 'finance']))
+        @if (in_array(auth()->user()->role, ['owner', 'finance']))
             <div class="row mb-4">
                 <div class="col-12">
                     <div class="card border-0 shadow-sm">
@@ -155,7 +155,7 @@
             </div>
         @endif
 
-        @if(auth()->user()->role === 'admin')
+        @if (auth()->user()->role === 'admin')
             <div class="row">
                 <div class="col-12">
                     <div class="card border-0 shadow-sm">
@@ -172,7 +172,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($accountTypes as $type)
+                                        @foreach ($accountTypes as $type)
                                             <tr>
                                                 <td>{{ ucfirst($type->type) }}</td>
                                                 <td>{{ $type->count }}</td>
@@ -189,14 +189,18 @@
     </div>
 
     @push('scripts')
-        @if(in_array(auth()->user()->role, ['owner', 'finance']))
+        @if (in_array(auth()->user()->role, ['owner', 'finance']))
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
-                    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
                     const monthlyData = {!! json_encode($monthlyData) !!};
+                    const locale = window.navigator.language;
 
-                    const labels = monthlyData.map(data => months[data.month - 1]);
+                    const labels = monthlyData.map(data => {
+                        const startDate = new Date(data.start_date);
+                        const endDate = new Date(data.end_date);
+                        return `${startDate.toLocaleDateString(locale, { day: 'numeric' })}-${endDate.toLocaleDateString(locale, { day: 'numeric' })} ${endDate.toLocaleDateString(locale, { month: 'short' })}`;
+                    });
                     const incomeData = monthlyData.map(data => data.income);
 
                     const ctx = document.getElementById('incomeChart').getContext('2d');
@@ -205,7 +209,7 @@
                         data: {
                             labels: labels,
                             datasets: [{
-                                label: 'Monthly Income',
+                                label: 'Weekly Income',
                                 data: incomeData,
                                 borderColor: '#0d6efd',
                                 backgroundColor: '#0d6efd20',
@@ -218,6 +222,10 @@
                             plugins: {
                                 legend: {
                                     display: false
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Weekly Income Overview'
                                 }
                             },
                             scales: {
@@ -229,7 +237,12 @@
                                     },
                                     ticks: {
                                         callback: function(value) {
-                                            return 'Rp ' + new Intl.NumberFormat('id-ID').format(value);
+                                            return new Intl.NumberFormat(locale, {
+                                                style: 'currency',
+                                                currency: 'IDR',
+                                                minimumFractionDigits: 0,
+                                                maximumFractionDigits: 0
+                                            }).format(value);
                                         }
                                     }
                                 },

@@ -59,10 +59,18 @@ class DashboardController extends Controller
 
     private function getMonthlyData()
     {
-        return Transaction::selectRaw('MONTH(created_at) as month, SUM(CASE WHEN type = "income" THEN amount ELSE 0 END) as income')
-            ->whereYear('created_at', date('Y'))
-            ->groupBy('month')
-            ->orderBy('month')
+        $startDate = now()->startOfMonth()->subMonth(); // Start from previous month
+        $endDate = now()->endOfMonth(); // Until current month end
+
+        return Transaction::selectRaw('
+            YEARWEEK(created_at) as yearweek,
+            MIN(DATE(created_at)) as start_date,
+            MAX(DATE(created_at)) as end_date,
+            SUM(CASE WHEN type = "income" THEN amount ELSE 0 END) as income
+        ')
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->groupBy('yearweek')
+            ->orderBy('yearweek')
             ->get();
     }
 }

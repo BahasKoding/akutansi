@@ -246,6 +246,7 @@
                     <div class="mb-3">
                         <label class="form-label">Type</label>
                         <select class="form-select" name="type" required>
+                            <option disabled selected>Choose type</option>
                             <option value="cash">Cash</option>
                             <option value="bank">Bank</option>
                         </select>

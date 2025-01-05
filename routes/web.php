@@ -5,10 +5,10 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TransactionController;
-use App\Http\Controllers\ReportController;
 use App\Http\Controllers\JournalEntryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ReportController;
 
 // Authentication Routes
 Route::get('/', function () {
@@ -28,11 +28,11 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('categories', CategoryController::class);
     Route::resource('users', UserController::class);
 
+    // Reports Routes
     Route::get('/reports/income-statement', [ReportController::class, 'incomeStatement'])
         ->name('reports.income-statement');
-    Route::get('/download-income-statement', [ReportController::class, 'downloadIncomeStatement'])->name('download.income.statement');
-    Route::get('/reports/balance-sheet', [ReportController::class, 'balanceSheet'])
-        ->name('reports.balance-sheet');
-    Route::get('/reports/analysis', [ReportController::class, 'analysis'])
-        ->name('reports.analysis');
+    Route::get('/reports/income-statement/preview', [ReportController::class, 'previewPdf'])
+        ->name('preview.income.statement');
+    Route::get('/reports/income-statement/download', [ReportController::class, 'downloadPdf'])
+        ->name('download.income.statement');
 });

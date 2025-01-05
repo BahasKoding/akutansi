@@ -3,54 +3,78 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
-use App\Models\Account;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
+    private function getFilteredTransactions(Request $request)
+    {
+        $query = Transaction::where('type', 'income')
+            ->with(['account', 'category'])
+            ->orderBy('created_at');
+
+        if ($request->filled(['start_date', 'end_date'])) {
+            $query->whereBetween('created_at', [
+                Carbon::parse($request->start_date)->startOfDay(),
+                Carbon::parse($request->end_date)->endOfDay()
+            ]);
+        }
+
+        return $query->get();
+    }
+
     public function incomeStatement(Request $request)
     {
-        $startDate = $request->input('start_date', Carbon::now()->startOfMonth());
-        $endDate = $request->input('end_date', Carbon::now()->endOfMonth());
-
-        $transactions = Transaction::where('type', 'income')
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->with(['account', 'category'])
-            ->get();
-
+        $transactions = $this->getFilteredTransactions($request);
         $totalIncome = $transactions->sum('amount');
 
         return view('reports.income-statement', compact(
             'transactions',
-            'startDate',
-            'endDate',
             'totalIncome'
         ))->with('title', 'Income Statement');
     }
 
-    public function downloadIncomeStatement(Request $request)
+    public function previewPdf(Request $request)
     {
-        $startDate = $request->input('start_date', Carbon::now()->startOfMonth());
-        $endDate = $request->input('end_date', Carbon::now()->endOfMonth());
-
-        $transactions = Transaction::where('type', 'income')
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->with(['account', 'category'])
-            ->get();
-
+        $transactions = $this->getFilteredTransactions($request);
         $totalIncome = $transactions->sum('amount');
 
-        // Load the PDF view
-        $pdf = Pdf::loadView('reports.pdf', [
+        $period = $request->filled(['start_date', 'end_date'])
+            ? Carbon::parse($request->start_date)->format('d M Y') . ' - ' . Carbon::parse($request->end_date)->format('d M Y')
+            : 'All Time';
+
+        $pdf = PDF::loadView('reports.pdf', [
             'transactions' => $transactions,
             'totalIncome' => $totalIncome,
-            'startDate' => $startDate,
-            'endDate' => $endDate,
+            'period' => $period,
+            'generatedAt' => now()->format('d M Y H:i:s')
         ]);
 
-        // Download the PDF
-        return $pdf->download('income_statement.pdf');
+        return $pdf->stream('income_statement_preview.pdf');
+    }
+
+    public function downloadPdf(Request $request)
+    {
+        $transactions = $this->getFilteredTransactions($request);
+        $totalIncome = $transactions->sum('amount');
+
+        $period = $request->filled(['start_date', 'end_date'])
+            ? Carbon::parse($request->start_date)->format('d M Y') . ' - ' . Carbon::parse($request->end_date)->format('d M Y')
+            : 'All Time';
+
+        $pdf = PDF::loadView('reports.pdf', [
+            'transactions' => $transactions,
+            'totalIncome' => $totalIncome,
+            'period' => $period,
+            'generatedAt' => now()->format('d M Y H:i:s')
+        ]);
+
+        $filename = 'income_statement_' . ($request->filled(['start_date', 'end_date'])
+            ? Carbon::parse($request->start_date)->format('d-m-Y') . '_to_' . Carbon::parse($request->end_date)->format('d-m-Y')
+            : 'all_time') . '.pdf';
+
+        return $pdf->download($filename);
     }
 }

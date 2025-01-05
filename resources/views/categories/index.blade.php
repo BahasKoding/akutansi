@@ -138,10 +138,10 @@
                         <label class="form-label">Name</label>
                         <input type="text" class="form-control" name="name" required>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3 d-none">
                         <label class="form-label">Type</label>
                         <select class="form-select" name="type" required>
-                            <option value="income">Income</option>
+                            <option value="income" selected>Income</option>
                         </select>
                     </div>
                 </div>
