@@ -55,7 +55,7 @@
 
     <!-- Quick Stats -->
     <div class="row mb-4">
-        <div class="col-md-4">
+        <!-- <div class="col-md-4">
             <div class="card stat-card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-2">
@@ -86,19 +86,19 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4">
+        </div> -->
+        <div class="col-md-12">
             <div class="card stat-card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <div class="text-muted">Total Entries</div>
-                        <div class="icon-shape bg-success bg-opacity-10 rounded-circle p-2">
-                            <i class="bi bi-journal-text text-success"></i>
+                        <div class="icon-shape bg-primary bg-opacity-10 rounded-circle p-2">
+                            <i class="bi bi-journal-text text-primary"></i>
                         </div>
                     </div>
                     <h3 class="mb-0">{{ number_format($totalEntries ?? 0) }}</h3>
                     <div class="progress mt-3" style="height: 4px;">
-                        <div class="progress-bar bg-success" style="width: 100%"></div>
+                        <div class="progress-bar bg-primary" style="width: 100%"></div>
                     </div>
                 </div>
             </div>
@@ -125,6 +125,7 @@
                         <tr>
                             <td class="text-muted">{{ $entry->created_at->format('d M Y') }}</td>
                             <td>
+                                
                                 <span class="badge rounded-pill bg-success bg-opacity-10 text-success">
                                     {{ ucfirst($entry->transaction->type) }}
                                 </span>
